@@ -12,8 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "Document")
-public class Document {
+@Table(name = "passport")
+public class Passport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,10 +29,10 @@ public class Document {
 	@Temporal(TemporalType.DATE)
 	private Date dateExpire;
 
-	public Document() {
+	public Passport() {
 	}
 
-	public Document(String number, String country, Date dateExpire) {
+	public Passport(String number, String country, Date dateExpire) {
 		this.number = number;
 		this.country = country;
 		this.dateExpire = dateExpire;

@@ -1,5 +1,5 @@
 -- Flight
-CREATE TABLE Flight (
+CREATE TABLE flight (
 id INT NOT NULL AUTO_INCREMENT
 , number VARCHAR(8)
 , departure VARCHAR(60) NOT NULL
@@ -16,29 +16,29 @@ id INT NOT NULL AUTO_INCREMENT
 );
 
 -- Guest
-CREATE TABLE Guest (
+CREATE TABLE guest (
 id INT NOT NULL AUTO_INCREMENT
 , title VARCHAR(4)
 , first_name VARCHAR(100) NOT NULL
 , last_name VARCHAR(100) NOT NULL    
 , date_birth DATE NOT NULL
-, id_document INT NOT NULL
+, id_passport INT NOT NULL
 , UNIQUE uq_guest (first_name, last_name, date_birth)
 , PRIMARY KEY (id)
 );
 
--- Document
-CREATE TABLE Document (
+-- Passport
+CREATE TABLE passport (
 id INT NOT NULL AUTO_INCREMENT
 , number VARCHAR(10) NOT NULL
 , country  VARCHAR(20) NOT NULL
 , date_expire DATE NOT NULL
-, UNIQUE uq_document (number)
+, UNIQUE uq_passport (number)
 , PRIMARY KEY (id)
 );
 
 -- Baggage
-CREATE TABLE Baggage (
+CREATE TABLE baggage (
 id INT NOT NULL AUTO_INCREMENT
 , quantity VARCHAR(4) NOT NULL
 , type_baggage VARCHAR(16) NOT NULL
@@ -55,7 +55,7 @@ id INT NOT NULL AUTO_INCREMENT
 );
 
 -- Booking
-CREATE TABLE Booking (
+CREATE TABLE booking (
 id INT NOT NULL AUTO_INCREMENT
 , id_flight INT NOT NULL
 , id_guest INT NOT NULL

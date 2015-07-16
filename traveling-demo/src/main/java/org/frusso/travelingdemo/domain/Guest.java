@@ -19,7 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "Guest")
+@Table(name = "guest")
 public class Guest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -41,8 +41,8 @@ public class Guest implements Serializable {
 	private Date dateBirth;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_document")
-	private Document document;
+	@JoinColumn(name = "id_passport")
+	private Passport passport;
 	
 	@ManyToMany
     @JoinTable(name="guest_baggage", joinColumns=@JoinColumn(name="id_guest"), inverseJoinColumns=@JoinColumn(name="id_baggage"))

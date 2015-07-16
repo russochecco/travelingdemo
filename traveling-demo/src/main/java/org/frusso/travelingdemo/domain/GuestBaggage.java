@@ -30,7 +30,7 @@ public class GuestBaggage implements Serializable {
 	private Guest guest;
 
 	@JsonIgnore
-	@ManyToOne(fetch=FetchType.EAGER) 
+	@ManyToOne(fetch=FetchType.LAZY) 
 	@JoinColumn(name = "id_baggage")
 	private Baggage baggage;
 	
