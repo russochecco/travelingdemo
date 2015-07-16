@@ -1,49 +1,61 @@
 package org.frusso.travelingdemo.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Baggage")
 public class Baggage {
-	
-	private Long id;
-	private String departing;
-	private String returning;
-	private String sportEquipmentDeparting;
-	private String sportEquipmentReturning;
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+
+	@Column(nullable = false, name = "quantity")
+	private String quantity;
+
+	@Column(nullable = false, name = "type_baggage")
+	private String type;
+
+	@Column(nullable = false, name = "price")
+	private String price;
+
 	public Baggage() {
-		
+
 	}
-	
-	public Baggage(String departing, String returning, String sportEquipmentDeparting, String sportEquipmentReturning) {
-		super();
-		this.departing = departing;
-		this.returning = returning;
-		this.sportEquipmentDeparting = sportEquipmentDeparting;
-		this.sportEquipmentReturning = sportEquipmentReturning;
+
+	public Baggage(String quantity, String type, String price) {
+		this.quantity = quantity;
+		this.type = type;
+		this.price = price;
 	}
-	
-	public String getDeparting() {
-		return departing;
+
+	public String getQuantity() {
+		return quantity;
 	}
-	public void setDeparting(String departing) {
-		this.departing = departing;
+
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
 	}
-	public String getReturning() {
-		return returning;
+
+	public String getType() {
+		return type;
 	}
-	public void setReturning(String returning) {
-		this.returning = returning;
+
+	public void setType(String type) {
+		this.type = type;
 	}
-	public String getSportEquipmentDeparting() {
-		return sportEquipmentDeparting;
+
+	public String getPrice() {
+		return price;
 	}
-	public void setSportEquipmentDeparting(String sportEquipmentDeparting) {
-		this.sportEquipmentDeparting = sportEquipmentDeparting;
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
-	public String getSportEquipmentReturning() {
-		return sportEquipmentReturning;
-	}
-	public void setSportEquipmentReturning(String sportEquipmentReturning) {
-		this.sportEquipmentReturning = sportEquipmentReturning;
-	}
-	
-	
+
 }

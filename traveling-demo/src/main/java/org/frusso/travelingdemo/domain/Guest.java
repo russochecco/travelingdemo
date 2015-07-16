@@ -2,12 +2,18 @@ package org.frusso.travelingdemo.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,24 +26,31 @@ public class Guest implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
-	@Column(nullable = false, name ="title")
+
+	@Column(nullable = false, name = "title")
 	private String title;
-	
-	@Column(nullable = false, name ="first_name")
+
+	@Column(nullable = false, name = "first_name")
 	private String firstName;
-	
-	@Column(nullable = false, name ="last_name")
+
+	@Column(nullable = false, name = "last_name")
 	private String lastName;
-	
-	@Column(nullable = false, name="date_birth")
+
+	@Column(nullable = false, name = "date_birth")
 	@Temporal(TemporalType.DATE)
 	private Date dateBirth;
 
-	public Guest() {
-		
-	}
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_document")
+	private Document document;
 	
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id_baggage")
+//	private List<GuestBaggage> baggages;
+
+	public Guest() {
+
+	}
+
 	public Guest(String title, String firstName, String lastName, Date dateBirth) {
 		this.title = title;
 		this.firstName = firstName;

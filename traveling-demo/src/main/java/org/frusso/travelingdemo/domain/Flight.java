@@ -21,7 +21,7 @@ public class Flight implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column(nullable = false, unique = true, name ="number")
+	@Column(nullable = false, unique = true, name = "number")
 	private String number;
 
 	@Column(nullable = false, name = "departure")
@@ -30,31 +30,32 @@ public class Flight implements Serializable {
 	@Column(nullable = false, name = "destination")
 	private String destination;
 
-	@Column(nullable = false, name="date_flight")
+	@Column(nullable = false, name = "date_flight")
 	@Temporal(TemporalType.DATE)
 	private Date date;
-	
-	@Column(nullable = false, name = "time_departure")
-	@Temporal(TemporalType.TIME)
-	private Date timeDeparture;
-	
-	@Column(nullable = false, name = "time_arrival")
-	@Temporal(TemporalType.TIME)
-	private Date timeArrival;
 
-	@Column(nullable = false, name ="status")
+	@Column(nullable = false, name = "time_departure")
+	private String timeDeparture;
+
+	@Column(nullable = false, name = "time_arrival")
+	private String timeArrival;
+
+	@Column(nullable = false, name = "status")
 	private String status;
 
-	@Column(nullable = false,  name = "price")
+	@Column(nullable = false, name = "price")
 	private String price;
 
-	@Column(nullable = false, name ="type_flight")
+	@Column(nullable = false, name = "type_flight")
 	private String type;
 
-	public Flight(){
-		
+	@Column(nullable = false, name = "seats")
+	private Integer seats;
+
+	public Flight() {
+
 	}
-	
+
 	public String getNumber() {
 		return number;
 	}
@@ -86,20 +87,20 @@ public class Flight implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
-	public Date getTimeDeparture() {
+
+	public String getTimeDeparture() {
 		return timeDeparture;
 	}
 
-	public void setTimeDeparture(Date timeDeparture) {
+	public void setTimeDeparture(String timeDeparture) {
 		this.timeDeparture = timeDeparture;
 	}
 
-	public Date getTimeArrival() {
+	public String getTimeArrival() {
 		return timeArrival;
 	}
 
-	public void setTimeArrival(Date timeArrival) {
+	public void setTimeArrival(String timeArrival) {
 		this.timeArrival = timeArrival;
 	}
 
@@ -125,6 +126,14 @@ public class Flight implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public Integer getSeats() {
+		return seats;
+	}
+
+	public void setSeats(Integer seats) {
+		this.seats = seats;
 	}
 
 	@Override
@@ -152,10 +161,4 @@ public class Flight implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Flight [number=" + number + ", departure=" + departure + ", destination=" + destination + ", date=" + date + ", timeDeparture=" + timeDeparture + ", timeArrival=" + timeArrival
-				+ ", status=" + status + ", price=" + price + ", type=" + type + "]";
-	}
-	
 }
