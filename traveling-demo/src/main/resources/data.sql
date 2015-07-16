@@ -12,3 +12,7 @@ insert into Document (id, number, country, date_expire) values ('1', 'AA12OO', '
 insert into Baggage (id, quantity, type_baggage, price) values ('1', '20kg', 'Sports Equipment', 'HKD 150');
 insert into Baggage (id, quantity, type_baggage, price) values ('2', '25kg', 'Sports Equipment', 'HKD 200');
 insert into Baggage (id, quantity, type_baggage, price) values ('3', '30kg', 'Sports Equipment', 'HKD 250');
+insert into Baggage (id, quantity, type_baggage, price) values ('4', '20kg', 'Personal', 'HKD 150');
+
+insert into guest_baggage (id, id_guest, id_baggage) values ('1', '1', '1');
+insert into guest_baggage (id, id_guest, id_baggage) values ('2', '1', '4');

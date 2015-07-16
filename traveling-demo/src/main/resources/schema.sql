@@ -47,7 +47,7 @@ id INT NOT NULL AUTO_INCREMENT
 );
 
 -- GuestBaggage
-CREATE TABLE GuestBaggage (
+CREATE TABLE guest_baggage (
 id INT NOT NULL AUTO_INCREMENT
 , id_guest INT NOT NULL
 , id_baggage INT NOT NULL
