@@ -8,7 +8,11 @@ public interface FlightService {
 
 	List<Flight> findAll();
 	
-	Flight findByDeparture(String departure);
+	Flight findFlightByDeparture(String departure);
+	
+	Flight findFlightByNumber(String number);
+	
+	Flight findFlightByDestination(String destination);
 
 	Flight save(Flight flight);
 

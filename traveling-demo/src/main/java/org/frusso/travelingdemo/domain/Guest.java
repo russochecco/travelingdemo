@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,21 +44,10 @@ public class Guest implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_passport")
 	private Passport passport;
-	
+
 	@ManyToMany
-    @JoinTable(name="guest_baggage", joinColumns=@JoinColumn(name="id_guest"), inverseJoinColumns=@JoinColumn(name="id_baggage"))
+	@JoinTable(name = "guest_baggage", joinColumns = @JoinColumn(name = "id_guest"), inverseJoinColumns = @JoinColumn(name = "id_baggage"))
 	private List<Baggage> baggages;
-	
-	public Guest() {
-
-	}
-
-	public Guest(String title, String firstName, String lastName, Date dateBirth) {
-		this.title = title;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.dateBirth = dateBirth;
-	}
 
 	public String getTitle() {
 		return title;
@@ -89,6 +79,63 @@ public class Guest implements Serializable {
 
 	public void setDateBirth(Date dateBirth) {
 		this.dateBirth = dateBirth;
+	}
+
+	public Passport getPassport() {
+		return passport;
+	}
+
+	public void setPassport(Passport passport) {
+		this.passport = passport;
+	}
+
+	public List<Baggage> getBaggages() {
+		return baggages;
+	}
+
+	public void setBaggages(List<Baggage> baggages) {
+		this.baggages = baggages;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dateBirth == null) ? 0 : dateBirth.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Guest other = (Guest) obj;
+		if (dateBirth == null) {
+			if (other.dateBirth != null)
+				return false;
+		} else if (!dateBirth.equals(other.dateBirth))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		return true;
 	}
 
 }

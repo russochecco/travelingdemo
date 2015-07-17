@@ -6,17 +6,15 @@ import org.frusso.travelingdemo.domain.Flight;
 import org.frusso.travelingdemo.repository.FlightRepository;
 import org.frusso.travelingdemo.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("flightService")
-@Repository
 @Transactional
 public class FlightServiceImpl implements FlightService {
-	
+
 	@Autowired
-	private FlightRepository flightRepository; 
+	private FlightRepository flightRepository;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -35,10 +33,17 @@ public class FlightServiceImpl implements FlightService {
 	}
 
 	@Override
-	public Flight findByDeparture(String departure) {
+	public Flight findFlightByDeparture(String departure) {
 		return flightRepository.findByDeparture(departure);
 	}
-	
-	//...
 
+	@Override
+	public Flight findFlightByNumber(String number) {
+		return flightRepository.findByNumber(number);
+	}
+
+	@Override
+	public Flight findFlightByDestination(String destination) {
+		return flightRepository.findByDestination(destination);
+	}
 }

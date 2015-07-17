@@ -1,5 +1,6 @@
 package org.frusso.travelingdemo.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +14,8 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "passport")
-public class Passport {
+public class Passport implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,16 +30,11 @@ public class Passport {
 	@Column(nullable = false, name = "date_expire")
 	@Temporal(TemporalType.DATE)
 	private Date dateExpire;
-
-	public Passport() {
+	
+	public Integer getId() {
+		return id;
 	}
-
-	public Passport(String number, String country, Date dateExpire) {
-		this.number = number;
-		this.country = country;
-		this.dateExpire = dateExpire;
-	}
-
+	
 	public String getNumber() {
 		return number;
 	}

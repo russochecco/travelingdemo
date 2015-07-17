@@ -55,7 +55,7 @@ public class BookingFlightService {
 	@Path("/find-by-departure")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Flight findFlightByDeparture(@QueryParam("departure") String departure) {
-		return flightService.findByDeparture(departure);
+		return flightService.findFlightByDeparture(departure);
 	}
 
 }

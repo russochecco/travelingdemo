@@ -49,13 +49,10 @@ public class Flight implements Serializable {
 	@Column(nullable = false, name = "type_flight")
 	private String type;
 
-	@Column(nullable = false, name = "seats")
-	private Integer seats;
-
-	public Flight() {
-
+	public Integer getId() {
+		return id;
 	}
-
+	
 	public String getNumber() {
 		return number;
 	}
@@ -126,14 +123,6 @@ public class Flight implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-	
-	public Integer getSeats() {
-		return seats;
-	}
-
-	public void setSeats(Integer seats) {
-		this.seats = seats;
 	}
 
 	@Override

@@ -10,7 +10,6 @@ id INT NOT NULL AUTO_INCREMENT
 , status VARCHAR(20) NOT NULL    
 , price VARCHAR(8) NOT NULL
 , type_flight VARCHAR(60) NOT NULL
-, seats INT NOT NULL
 , UNIQUE uq_flight (number)
 , PRIMARY KEY (id)
 );

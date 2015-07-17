@@ -1,5 +1,7 @@
 package org.frusso.travelingdemo.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +11,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "baggage")
-public class Baggage {
+public class Baggage implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-
+	
 	@Column(nullable = false, name = "quantity")
 	private String quantity;
 
@@ -24,16 +27,10 @@ public class Baggage {
 	@Column(nullable = false, name = "price")
 	private String price;
 
-	public Baggage() {
-
+	public Integer getId() {
+		return id;
 	}
-
-	public Baggage(String quantity, String type, String price) {
-		this.quantity = quantity;
-		this.type = type;
-		this.price = price;
-	}
-
+	
 	public String getQuantity() {
 		return quantity;
 	}
@@ -58,4 +55,5 @@ public class Baggage {
 		this.price = price;
 	}
 
+	
 }
