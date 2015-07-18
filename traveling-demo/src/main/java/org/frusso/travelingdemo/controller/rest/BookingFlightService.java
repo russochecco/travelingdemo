@@ -13,7 +13,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.frusso.travelingdemo.controller.rest.errorhandling.CustomWebApplicationException;
+import org.frusso.travelingdemo.domain.Baggage;
 import org.frusso.travelingdemo.domain.Flight;
+import org.frusso.travelingdemo.service.BaggageService;
 import org.frusso.travelingdemo.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,9 @@ public class BookingFlightService {
 
 	@Autowired
 	private FlightService flightService;
+	
+	@Autowired
+	private BaggageService baggageService;
 
 	@GET
 	@Path("/all-flights")
@@ -33,15 +38,21 @@ public class BookingFlightService {
 	public List<Flight> allFlights() {
 		return flightService.findAll();
 	}
+	
+	@GET
+	@Path("/flight-by-departure")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Flight findFlightByDeparture(@QueryParam("departure") String departure) {
+		return flightService.findFlightByDeparture(departure);
+	}
 
 	@POST
-	@Path("/add-flight")
+	@Path("/add-flights")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addFlight(@QueryParam("flight") String jsonFlightRepresentation) throws CustomWebApplicationException {
-		
+	public Response addFlight(@QueryParam("flight") String flight) throws CustomWebApplicationException {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			Flight newFlight = mapper.readValue(jsonFlightRepresentation, Flight.class);
+			Flight newFlight = mapper.readValue(flight, Flight.class);
 			flightService.save(newFlight);
 		} catch (Exception e) {
 			String message = e.getMessage();
@@ -52,10 +63,17 @@ public class BookingFlightService {
 	}
 
 	@GET
-	@Path("/find-by-departure")
+	@Path("/flight-by-number")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Flight findFlightByDeparture(@QueryParam("departure") String departure) {
-		return flightService.findFlightByDeparture(departure);
+	public Flight findFlightByNumber(@QueryParam("number") String number) {
+		return flightService.findFlightByNumber(number);
 	}
-
+	
+	@GET
+	@Path("/all-baggages")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Baggage> allBaggages() {
+		return baggageService.allBaggages();
+	}
+	
 }

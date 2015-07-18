@@ -13,10 +13,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "passport")
-public class Passport implements Serializable {
+@Table(name = "credit_card")
+public class CreditCard implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -24,8 +24,8 @@ public class Passport implements Serializable {
 	@Column(nullable = false, unique = true, name = "number")
 	private String number;
 
-	@Column(nullable = false, name = "country")
-	private String country;
+	@Column(nullable = false, name = "credit_card_type")
+	private String creditCardType;
 
 	@Column(nullable = false, name = "date_expire")
 	@Temporal(TemporalType.DATE)
@@ -34,7 +34,7 @@ public class Passport implements Serializable {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public String getNumber() {
 		return number;
 	}
@@ -43,12 +43,12 @@ public class Passport implements Serializable {
 		this.number = number;
 	}
 
-	public String getCountry() {
-		return country;
+	public String getCreditCardType() {
+		return creditCardType;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setCreditCardType(String creditCardType) {
+		this.creditCardType = creditCardType;
 	}
 
 	public Date getDateExpire() {

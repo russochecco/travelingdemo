@@ -20,19 +20,21 @@ public class GuestBaggage implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_guest")
+	@JoinColumn(name = "guest_id")
 	private Guest guest;
 
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_baggage")
+	@JoinColumn(name = "baggage_id")
 	private Baggage baggage;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "flight_id")
+	private Flight flight;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	
@@ -52,4 +54,12 @@ public class GuestBaggage implements Serializable {
 		this.baggage = baggage;
 	}
 
+	public Flight getFlight() {
+		return flight;
+	}
+
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
+	
 }

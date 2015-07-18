@@ -1,14 +1,18 @@
 package org.frusso.travelingdemo.service;
 
+import java.util.List;
+
 import org.frusso.travelingdemo.domain.Baggage;
 
 public interface BaggageService {
 
-	Baggage findBaggageByQuantity(String quantity);
-
-	Baggage findBaggageByPrice(String price);
+	Baggage findByQuantity(String quantity);
 	
-	Baggage findBaggageByType(String type);
+	List<Baggage> allBaggages();
+
+	Baggage findByPrice(String price);
+	
+	Baggage findByType(String type);
 
 	Baggage save(Baggage baggage);
 

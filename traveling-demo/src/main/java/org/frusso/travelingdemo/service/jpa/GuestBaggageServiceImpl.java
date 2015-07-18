@@ -24,14 +24,12 @@ public class GuestBaggageServiceImpl implements GuestBaggageService  {
 
 	@Override
 	public GuestBaggage save(GuestBaggage guestBaggage) {
-		// TODO Auto-generated method stub
-		return null;
+		return guestBaggageRepository.save(guestBaggage);
 	}
 
 	@Override
 	public void delete(GuestBaggage guestBaggage) {
-		// TODO Auto-generated method stub
-		
+		guestBaggageRepository.delete(guestBaggage);		
 	}
 
 }

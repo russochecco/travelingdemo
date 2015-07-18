@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,7 +25,7 @@ public class Guest implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 
 	@Column(nullable = false, name = "title")
 	private String title;
@@ -42,11 +41,15 @@ public class Guest implements Serializable {
 	private Date dateBirth;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_passport")
+	@JoinColumn(name = "passport_id")
 	private Passport passport;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "credit_card_id")
+	private CreditCard creditCard;
+	
 	@ManyToMany
-	@JoinTable(name = "guest_baggage", joinColumns = @JoinColumn(name = "id_guest"), inverseJoinColumns = @JoinColumn(name = "id_baggage"))
+	@JoinTable(name = "guest_baggage", joinColumns = @JoinColumn(name = "guest_id"), inverseJoinColumns = @JoinColumn(name = "baggage_id"))
 	private List<Baggage> baggages;
 
 	public String getTitle() {
@@ -96,8 +99,16 @@ public class Guest implements Serializable {
 	public void setBaggages(List<Baggage> baggages) {
 		this.baggages = baggages;
 	}
+	
+	public CreditCard getCreditCard() {
+		return creditCard;
+	}
 
-	public Integer getId() {
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
+
+	public Long getId() {
 		return id;
 	}
 

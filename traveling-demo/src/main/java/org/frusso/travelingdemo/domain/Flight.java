@@ -19,7 +19,7 @@ public class Flight implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 
 	@Column(nullable = false, unique = true, name = "number")
 	private String number;
@@ -49,7 +49,7 @@ public class Flight implements Serializable {
 	@Column(nullable = false, name = "type_flight")
 	private String type;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	

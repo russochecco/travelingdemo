@@ -3,9 +3,11 @@ package org.frusso.travelingdemo.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.Date;
 import java.util.List;
 
 import org.frusso.travelingdemo.TravelingDemoApplication;
+import org.frusso.travelingdemo.domain.CreditCard;
 import org.frusso.travelingdemo.domain.Guest;
 import org.frusso.travelingdemo.domain.Passport;
 import org.frusso.travelingdemo.utils.ParseData;
@@ -24,6 +26,9 @@ public class GuestRepositoryTest {
 
 	@Autowired
 	private PassportRepository passportRepository;
+	
+	@Autowired
+	private CreditCardRepository creditCardRepository;
 
 	@Test
 	public void addNewGuestTest() {
@@ -33,16 +38,23 @@ public class GuestRepositoryTest {
 		passport.setDateExpire(ParseData.stringValue2Date("2018-09-30"));
 		passport.setNumber("AAPP123");
 		passport = passportRepository.saveAndFlush(passport);
+		
+		CreditCard creditCard = new CreditCard();
+		creditCard.setNumber("BBBBDDD12");
+		creditCard.setCreditCardType("Visa");
+		creditCard.setDateExpire(ParseData.stringValue2Date("2020-09-30"));
+		creditCardRepository.saveAndFlush(creditCard);
 
 		Guest newGuest = new Guest();
 		newGuest.setFirstName("Luca");
 		newGuest.setLastName("Bianchi");
 		newGuest.setDateBirth(ParseData.stringValue2Date("1973-09-22"));
 		newGuest.setPassport(passport);
+		newGuest.setCreditCard(creditCard);
 		newGuest.setTitle("Mr");
-		guestRepository.save(newGuest);
+		guestRepository.saveAndFlush(newGuest);
 
-		assertEquals(newGuest, guestRepository.findByLastName(newGuest.getLastName()));
+		assertEquals(newGuest, guestRepository.findOne(newGuest.getId()));
 	}
 
 	@Test
@@ -51,9 +63,9 @@ public class GuestRepositoryTest {
 		List<Guest> existings = guestRepository.findAll();
 		Guest underTest = existings.get(0);
 		String lastName = underTest.getLastName();
+		Date dateBirth = underTest.getDateBirth();
 		guestRepository.delete(underTest);
-
-		underTest = guestRepository.findByLastName(lastName);
-		assertNull(underTest);
+		
+		assertNull(guestRepository.findOne(underTest.getId()));		
 	}
 }

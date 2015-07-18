@@ -1,8 +1,11 @@
 package org.frusso.travelingdemo.service.jpa;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.frusso.travelingdemo.domain.Booking;
 import org.frusso.travelingdemo.domain.Flight;
+import org.frusso.travelingdemo.repository.BookingRepository;
 import org.frusso.travelingdemo.repository.FlightRepository;
 import org.frusso.travelingdemo.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ public class FlightServiceImpl implements FlightService {
 
 	@Autowired
 	private FlightRepository flightRepository;
+
+	@Autowired
+	private BookingRepository bookingRepository;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -45,5 +51,19 @@ public class FlightServiceImpl implements FlightService {
 	@Override
 	public Flight findFlightByDestination(String destination) {
 		return flightRepository.findByDestination(destination);
+	}
+
+	@Override
+	public boolean checkAvailableSeat(String flightNumber, String seat) {
+		Flight flight = flightRepository.findByNumber(flightNumber);
+		List<Booking> bookings = bookingRepository.findByFlight(flight);
+		return !bookings.stream().filter(b -> b.getSeat().equals(seat)).findFirst().isPresent();
+	}
+
+	@Override
+	public List<String> findBookedSeats(String flightNumber) {
+		Flight flight = flightRepository.findByNumber(flightNumber);
+		List<Booking> bookings = bookingRepository.findByFlight(flight);
+		return bookings.stream().map(b -> b.getSeat()).collect(Collectors.toList());
 	}
 }

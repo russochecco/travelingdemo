@@ -13,6 +13,10 @@ public interface FlightService {
 	Flight findFlightByNumber(String number);
 	
 	Flight findFlightByDestination(String destination);
+	
+	boolean checkAvailableSeat(String flightNumber, String seat);
+	
+	List<String> findBookedSeats(String flightNumber);
 
 	Flight save(Flight flight);
 

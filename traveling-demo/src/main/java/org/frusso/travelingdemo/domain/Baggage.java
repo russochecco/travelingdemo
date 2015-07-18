@@ -16,7 +16,7 @@ public class Baggage implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 	
 	@Column(nullable = false, name = "quantity")
 	private String quantity;
@@ -27,7 +27,7 @@ public class Baggage implements Serializable {
 	@Column(nullable = false, name = "price")
 	private String price;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	

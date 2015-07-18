@@ -1,5 +1,7 @@
 package org.frusso.travelingdemo.service.jpa;
 
+import java.util.List;
+
 import org.frusso.travelingdemo.domain.Baggage;
 import org.frusso.travelingdemo.repository.BaggageRepository;
 import org.frusso.travelingdemo.service.BaggageService;
@@ -15,12 +17,12 @@ public class BaggageServiceImpl implements BaggageService {
 	private BaggageRepository baggageRepository;
 
 	@Override
-	public Baggage findBaggageByQuantity(String quantity) {
+	public Baggage findByQuantity(String quantity) {
 		return baggageRepository.findByQuantity(quantity);
 	}
 
 	@Override
-	public Baggage findBaggageByPrice(String price) {
+	public Baggage findByPrice(String price) {
 		return baggageRepository.findByPrice(price);
 	}
 
@@ -35,8 +37,13 @@ public class BaggageServiceImpl implements BaggageService {
 	}
 
 	@Override
-	public Baggage findBaggageByType(String type) {
+	public Baggage findByType(String type) {
 		return baggageRepository.findByType(type);
+	}
+
+	@Override
+	public List<Baggage> allBaggages() {
+		return baggageRepository.findAll();
 	}
 
 }

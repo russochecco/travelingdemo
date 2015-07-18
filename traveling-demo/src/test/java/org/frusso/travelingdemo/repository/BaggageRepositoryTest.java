@@ -21,7 +21,7 @@ public class BaggageRepositoryTest {
 	public void addNewBaggageTest() {
 		
 		Baggage newBaggage = new Baggage();
-		newBaggage.setPrice("HKD 150");
+		newBaggage.setPrice("150");
 		newBaggage.setType("New type");
 		newBaggage.setQuantity("20kg");
 		baggageRepository.save(newBaggage);
