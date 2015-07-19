@@ -5,10 +5,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.frusso.travelingdemo.TravelingDemoApplication;
 import org.frusso.travelingdemo.domain.Flight;
-import org.frusso.travelingdemo.utils.ParseData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,10 @@ public class FlightRepositoryTest {
 		flight.setDestination("Destination");
 		flight.setPrice("Price");
 		flight.setStatus("Status");
-		flight.setTimeDeparture("08:00:00");
-		flight.setTimeArrival("12:00:00");
+		flight.setTimeDeparture(LocalTime.of(8, 0));
+		flight.setTimeArrival(LocalTime.of(12, 0));
 		flight.setType("Type");
-		flight.setDate(ParseData.stringValue2Date("2015-09-30"));
+		flight.setDate(LocalDate.of(2015, 9, 30));
 		flightRepository.save(flight);
 		Flight found = flightRepository.findByNumber(flight.getNumber());
 		assertEquals(flight, found);

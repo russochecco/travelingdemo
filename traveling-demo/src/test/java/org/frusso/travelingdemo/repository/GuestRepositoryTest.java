@@ -4,11 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.time.LocalDate;
+
 import org.frusso.travelingdemo.TravelingDemoApplication;
 import org.frusso.travelingdemo.domain.CreditCard;
 import org.frusso.travelingdemo.domain.Guest;
 import org.frusso.travelingdemo.domain.Passport;
-import org.frusso.travelingdemo.utils.ParseData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,12 @@ public class GuestRepositoryTest {
 		Guest guest = new Guest();
 		guest.setFirstName("Luca");
 		guest.setLastName("Bianchi");
-		guest.setDateBirth(ParseData.stringValue2Date("1973-09-22"));
+		guest.setDateBirth(LocalDate.parse("1973-09-22"));
 		guest.setTitle("Mr");
 
 		Passport passport = new Passport();
 		passport.setCountry("Italy");
-		passport.setDateExpire(ParseData.stringValue2Date("2018-09-30"));
+		passport.setDateExpire(LocalDate.parse("2018-09-30"));
 		passport.setNumber("AAPP123");
 		passport.setGuest(guest);
 		guest.setPassport(passport);
@@ -47,7 +48,7 @@ public class GuestRepositoryTest {
 		CreditCard creditCard = new CreditCard();
 		creditCard.setNumber("BBBBDDD12");
 		creditCard.setCreditCardType("Visa");
-		creditCard.setDateExpire(ParseData.stringValue2Date("2020-09-30"));
+		creditCard.setDateExpire(LocalDate.parse("2020-09-30"));
 		creditCard.setGuest(guest);
 		guest.setCreditCard(creditCard);
 

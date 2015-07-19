@@ -2,6 +2,8 @@ package org.frusso.travelingdemo.domain.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.frusso.travelingdemo.domain.Flight;
+
 @XmlRootElement
 public class FlightDTO {
 
@@ -14,10 +16,23 @@ public class FlightDTO {
 	private String status;
 	private String price;
 	private String type;
-	
-	public FlightDTO(){}
-	
+
+	public FlightDTO(Flight flight) {
+
+		this.number = flight.getNumber();
+		this.departure = flight.getDeparture();
+		this.destination = flight.getDestination();
+		this.date = flight.getDate().toString();
+		this.timeDeparture = flight.getTimeDeparture().toString();
+		this.timeArrival = flight.getTimeArrival().toString();
+		this.type = flight.getType();
+		this.price = flight.getPrice();
+		this.status = flight.getStatus();
+
+	}
+
 	public FlightDTO(String number, String departure, String destination, String date, String timeDeparture, String timeArrival, String status, String price, String type) {
+
 		this.number = number;
 		this.departure = departure;
 		this.destination = destination;
@@ -27,6 +42,7 @@ public class FlightDTO {
 		this.status = status;
 		this.price = price;
 		this.type = type;
+
 	}
 
 	public String getNumber() {
@@ -100,5 +116,5 @@ public class FlightDTO {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 }

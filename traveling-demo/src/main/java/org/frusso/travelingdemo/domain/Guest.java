@@ -1,11 +1,12 @@
 package org.frusso.travelingdemo.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,8 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.frusso.travelingdemo.converter.LocalDateConverter;
 
 @Entity
 @Table(name = "guest")
@@ -38,8 +39,8 @@ public class Guest implements Serializable {
 	private String lastName;
 
 	@Column(nullable = false, name = "date_birth")
-	@Temporal(TemporalType.DATE)
-	private Date dateBirth;
+//	@Convert(converter = LocalDateConverter.class)
+	private LocalDate dateBirth;
 
 	@OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -52,7 +53,7 @@ public class Guest implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "guest")
 	private List<GuestBaggage> guestBaggages;
 
-	@OneToMany(mappedBy = "guest")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "guest")
 	private List<Booking> bookings;
 
 	public Long getId() {
@@ -87,11 +88,11 @@ public class Guest implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public Date getDateBirth() {
+	public LocalDate getDateBirth() {
 		return dateBirth;
 	}
 
-	public void setDateBirth(Date dateBirth) {
+	public void setDateBirth(LocalDate dateBirth) {
 		this.dateBirth = dateBirth;
 	}
 

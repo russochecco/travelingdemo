@@ -5,8 +5,8 @@ flight_id BIGINT NOT NULL AUTO_INCREMENT
 , departure VARCHAR(60) NOT NULL
 , destination VARCHAR(60) NOT NULL    
 , date_flight DATE NOT NULL
-, time_departure VARCHAR(8) NOT NULL
-, time_arrival VARCHAR(8) NOT NULL
+, time_departure TIME NOT NULL
+, time_arrival TIME NOT NULL
 , status VARCHAR(20) NOT NULL    
 , price VARCHAR(8) NOT NULL
 , flight_type VARCHAR(60) NOT NULL
@@ -30,7 +30,7 @@ guest_id BIGINT NOT NULL AUTO_INCREMENT
 , first_name VARCHAR(100) NOT NULL
 , last_name VARCHAR(100) NOT NULL    
 , date_birth DATE NOT NULL
-, UNIQUE uq_guest_1 (first_name, last_name, date_birth)
+, UNIQUE uq_guest (first_name, last_name, date_birth)
 , PRIMARY KEY (guest_id)
 );
 

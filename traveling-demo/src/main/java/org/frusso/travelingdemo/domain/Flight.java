@@ -1,18 +1,22 @@
 package org.frusso.travelingdemo.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.frusso.travelingdemo.converter.LocalDateConverter;
+import org.frusso.travelingdemo.converter.LocalTimeConverter;
 
 @Entity
 @Table(name = "flight")
@@ -21,7 +25,7 @@ public class Flight implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="flight_id")
+	@Column(name = "flight_id")
 	private Long id;
 
 	@Column(nullable = false, unique = true, name = "number")
@@ -34,14 +38,16 @@ public class Flight implements Serializable {
 	private String destination;
 
 	@Column(nullable = false, name = "date_flight")
-	@Temporal(TemporalType.DATE)
-	private Date date;
+	@Convert(converter = LocalDateConverter.class)
+	private LocalDate date;
 
 	@Column(nullable = false, name = "time_departure")
-	private String timeDeparture;
+	@Convert(converter = LocalTimeConverter.class)
+	private LocalTime timeDeparture;
 
 	@Column(nullable = false, name = "time_arrival")
-	private String timeArrival;
+	@Convert(converter = LocalTimeConverter.class)
+	private LocalTime timeArrival;
 
 	@Column(nullable = false, name = "status")
 	private String status;
@@ -52,9 +58,9 @@ public class Flight implements Serializable {
 	@Column(nullable = false, name = "flight_type")
 	private String type;
 
-	@OneToMany(mappedBy = "flight")
+	@OneToMany(mappedBy = "flight", fetch = FetchType.EAGER)
 	private List<Booking> bookings;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -87,27 +93,27 @@ public class Flight implements Serializable {
 		this.destination = destination;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
-	public String getTimeDeparture() {
+	public LocalTime getTimeDeparture() {
 		return timeDeparture;
 	}
 
-	public void setTimeDeparture(String timeDeparture) {
+	public void setTimeDeparture(LocalTime timeDeparture) {
 		this.timeDeparture = timeDeparture;
 	}
 
-	public String getTimeArrival() {
+	public LocalTime getTimeArrival() {
 		return timeArrival;
 	}
 
-	public void setTimeArrival(String timeArrival) {
+	public void setTimeArrival(LocalTime timeArrival) {
 		this.timeArrival = timeArrival;
 	}
 
@@ -166,6 +172,12 @@ public class Flight implements Serializable {
 		} else if (!number.equals(other.number))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Flight [id=" + id + ", number=" + number + ", departure=" + departure + ", destination=" + destination + ", date=" + date + ", timeDeparture=" + timeDeparture + ", timeArrival="
+				+ timeArrival + ", status=" + status + ", price=" + price + ", type=" + type + "]";
 	}
 
 }

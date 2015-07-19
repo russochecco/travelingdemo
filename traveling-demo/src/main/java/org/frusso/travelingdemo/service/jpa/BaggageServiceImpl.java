@@ -42,7 +42,7 @@ public class BaggageServiceImpl implements BaggageService {
 	}
 
 	@Override
-	public List<Baggage> allBaggages() {
+	public List<Baggage> findAll() {
 		return baggageRepository.findAll();
 	}
 

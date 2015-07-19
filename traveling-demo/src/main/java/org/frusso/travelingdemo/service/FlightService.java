@@ -1,23 +1,30 @@
 package org.frusso.travelingdemo.service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.frusso.travelingdemo.domain.Flight;
+import org.frusso.travelingdemo.domain.Seat;
 
 public interface FlightService {
 
 	List<Flight> findAll();
 	
-	Flight findFlightByDeparture(String departure);
+	List<Flight> findByDeparture(String departure);
 	
-	Flight findFlightByNumber(String number);
+	Flight findByNumber(String number);
 	
-	Flight findFlightByDestination(String destination);
+	List<Flight> findByDestination(String destination);
 	
-	boolean checkAvailableSeat(String flightNumber, String seat);
+	List<Flight> findByDate(LocalDate date);
 	
-	List<String> findBookedSeats(String flightNumber);
-
+	boolean checkAvailableSeat(String number, String seat);
+	
+	List<String> findBookedSeats(String number);
+	
+	Map<Integer, Seat> seatsMap(String number);
+	
 	Flight save(Flight flight);
 
 	void delete(Flight flight);

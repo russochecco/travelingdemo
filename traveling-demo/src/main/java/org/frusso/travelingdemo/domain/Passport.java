@@ -1,9 +1,10 @@
 package org.frusso.travelingdemo.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.frusso.travelingdemo.converter.LocalDateConverter;
 
 @Entity
 @Table(name = "passport")
@@ -32,8 +33,8 @@ public class Passport implements Serializable {
 	private String country;
 
 	@Column(nullable = false, name = "date_expire")
-	@Temporal(TemporalType.DATE)
-	private Date dateExpire;
+	@Convert(converter = LocalDateConverter.class)
+	private LocalDate dateExpire;
 	
 	@MapsId 
     @OneToOne(mappedBy = "passport")
@@ -64,11 +65,11 @@ public class Passport implements Serializable {
 		this.country = country;
 	}
 
-	public Date getDateExpire() {
+	public LocalDate getDateExpire() {
 		return dateExpire;
 	}
 
-	public void setDateExpire(Date dateExpire) {
+	public void setDateExpire(LocalDate dateExpire) {
 		this.dateExpire = dateExpire;
 	}
 

@@ -8,9 +8,13 @@ import org.frusso.travelingdemo.domain.Guest;
 
 public interface BookingService {
 
-	List<Booking> findBookingByGuest(Guest guest);
+	List<Booking> findByGuest(Guest guest);
 
-	List<Booking> findBookingByFlight(Flight flight);
+	List<Booking> findByFlight(Flight flight);
+
+	List<Booking> findByGuest(String lastname, String dateBirth);
+
+	List<Booking> findByFlight(String number);
 
 	Booking save(Booking booking);
 

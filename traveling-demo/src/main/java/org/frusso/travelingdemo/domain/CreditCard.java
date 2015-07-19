@@ -1,9 +1,10 @@
 package org.frusso.travelingdemo.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.frusso.travelingdemo.converter.LocalDateConverter;
 
 @Entity
 @Table(name = "credit_card")
@@ -22,7 +23,7 @@ public class CreditCard implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="credit_card_id")
+	@Column(name = "credit_card_id")
 	private Long id;
 
 	@Column(nullable = false, unique = true, name = "number")
@@ -32,12 +33,12 @@ public class CreditCard implements Serializable {
 	private String creditCardType;
 
 	@Column(nullable = false, name = "date_expire")
-	@Temporal(TemporalType.DATE)
-	private Date dateExpire;
-	
-	@MapsId 
-    @OneToOne(mappedBy = "creditCard")
-    @JoinColumn(name = "credit_card_id")  
+	@Convert(converter = LocalDateConverter.class)
+	private LocalDate dateExpire;
+
+	@MapsId
+	@OneToOne(mappedBy = "creditCard")
+	@JoinColumn(name = "credit_card_id")
 	private Guest guest;
 
 	public Long getId() {
@@ -64,11 +65,11 @@ public class CreditCard implements Serializable {
 		this.creditCardType = creditCardType;
 	}
 
-	public Date getDateExpire() {
+	public LocalDate getDateExpire() {
 		return dateExpire;
 	}
 
-	public void setDateExpire(Date dateExpire) {
+	public void setDateExpire(LocalDate dateExpire) {
 		this.dateExpire = dateExpire;
 	}
 
@@ -116,5 +117,5 @@ public class CreditCard implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

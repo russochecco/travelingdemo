@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.frusso.travelingdemo.TravelingDemoApplication;
 import org.frusso.travelingdemo.domain.Booking;
@@ -40,7 +40,7 @@ public class BookingRepositoryTest {
 	@Before
 	public void setUp() throws Exception {
 
-		guest = guestRepository.findByLastNameAndDateBirth("Rossi", ParseData.stringValue2Date("1973-11-22")).get(0);
+		guest = guestRepository.findByLastNameAndDateBirth("Rossi", LocalDate.parse("1973-11-22")).get(0);
 		flight = flightRepository.findByNumber("AA10000");
 
 	}
@@ -51,7 +51,7 @@ public class BookingRepositoryTest {
 		Booking booking = new Booking();
 		booking.setGuest(guest);
 		booking.setFlight(flight);
-		booking.setDateBooking(ParseData.stringValue2Date("2015-08-26"));
+		booking.setDateBooking(LocalDate.parse("2015-08-26"));
 		booking.setSeat("A3");
 		
 		booking = bookingRepository.save(booking);
@@ -65,7 +65,7 @@ public class BookingRepositoryTest {
 
 		Booking booking = bookingRepository.findByGuestAndFlightAndDateBookingAndSeat(guest, flight, ParseData.stringValue2Date("2015-08-01"), "A1");
 		booking.setAmount("600.0");
-		booking.setDatePayment(ParseData.stringValue2Date("2015-07-18"));
+		booking.setDatePayment(LocalDate.parse("2015-07-18"));
 		
 		booking = bookingRepository.save(booking);
 		
@@ -73,14 +73,7 @@ public class BookingRepositoryTest {
 		
 		assertEquals(booking.getDatePayment(), found.getDatePayment());
 		assertEquals(booking.getAmount(), found.getAmount());
-
-		// double amount = Double.parseDouble(found.getFlight().getPrice());
-		// final String flightNumber = found.getFlight().getNumber();
-		// amount += guestBaggageRepository.findByGuest(guest).stream()
-		// .filter(b -> b.getFlight().getNumber().equals(flightNumber))
-		// .mapToDouble(b -> Double.parseDouble(b.getBaggage().getPrice()))
-		// .sum();
-
+		
 	}
 
 	@Test

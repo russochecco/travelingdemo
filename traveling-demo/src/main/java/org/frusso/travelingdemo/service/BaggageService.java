@@ -8,7 +8,7 @@ public interface BaggageService {
 
 	List<Baggage> findByQuantity(String quantity);
 	
-	List<Baggage> allBaggages();
+	List<Baggage> findAll();
 
 	List<Baggage> findByPrice(String price);
 	

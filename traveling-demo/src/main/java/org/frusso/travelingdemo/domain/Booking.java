@@ -1,9 +1,10 @@
 package org.frusso.travelingdemo.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,8 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.frusso.travelingdemo.converter.LocalDateConverter;
 
 @Entity
 @Table(name = "booking")
@@ -35,16 +36,16 @@ public class Booking implements Serializable {
 	private Flight flight;
 
 	@Column(nullable = false, name = "date_booking")
-	@Temporal(TemporalType.DATE)
-	private Date dateBooking;
+	@Convert(converter = LocalDateConverter.class)
+	private LocalDate dateBooking;
 
-	@Column(nullable = true, name = "amount_payment")	
+	@Column(nullable = true, name = "amount_payment")
 	private String amount;
-	
+
 	@Column(nullable = false, name = "date_payment")
-	@Temporal(TemporalType.DATE)
-	private Date datePayment;
-	
+	@Convert(converter = LocalDateConverter.class)
+	private LocalDate datePayment;
+
 	@Column(nullable = false, name = "seat")
 	private String seat;
 
@@ -72,11 +73,11 @@ public class Booking implements Serializable {
 		this.flight = flight;
 	}
 
-	public Date getDateBooking() {
+	public LocalDate getDateBooking() {
 		return dateBooking;
 	}
 
-	public void setDateBooking(Date dateBooking) {
+	public void setDateBooking(LocalDate dateBooking) {
 		this.dateBooking = dateBooking;
 	}
 
@@ -88,11 +89,11 @@ public class Booking implements Serializable {
 		this.amount = amount;
 	}
 
-	public Date getDatePayment() {
+	public LocalDate getDatePayment() {
 		return datePayment;
 	}
 
-	public void setDatePayment(Date datePayment) {
+	public void setDatePayment(LocalDate datePayment) {
 		this.datePayment = datePayment;
 	}
 
