@@ -1,10 +1,10 @@
 package org.frusso.travelingdemo.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.text.ParseException;
-import java.util.List;
 
 import org.frusso.travelingdemo.TravelingDemoApplication;
 import org.frusso.travelingdemo.domain.Flight;
@@ -18,38 +18,42 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TravelingDemoApplication.class)
 public class FlightRepositoryTest {
+	
+	private final String number = "BA1234"; 
 
 	@Autowired
 	private FlightRepository flightRepository;
 
 	@Test
 	public void addNewFlightTest() throws ParseException {
-		Flight newFlight = new Flight();
-		newFlight.setNumber("AA1234");
-		newFlight.setDeparture("Departure");
-		newFlight.setDestination("Destination");
-		newFlight.setPrice("Price");
-		newFlight.setStatus("Status");
-		newFlight.setTimeDeparture("08:00:00");
-		newFlight.setTimeArrival("12:00:00");
-		newFlight.setType("Type");
-		newFlight.setDate(ParseData.stringValue2Date("2015-09-30"));
-		flightRepository.save(newFlight);
-
-		Flight found = flightRepository.findByNumber(newFlight.getNumber());
-		assertEquals(newFlight, found);
+		
+		Flight flight = new Flight();
+		flight.setNumber(number);
+		flight.setDeparture("Departure");
+		flight.setDestination("Destination");
+		flight.setPrice("Price");
+		flight.setStatus("Status");
+		flight.setTimeDeparture("08:00:00");
+		flight.setTimeArrival("12:00:00");
+		flight.setType("Type");
+		flight.setDate(ParseData.stringValue2Date("2015-09-30"));
+		flightRepository.save(flight);
+		Flight found = flightRepository.findByNumber(flight.getNumber());
+		assertEquals(flight, found);
+		
 	}
 
 	@Test
 	public void deleteFlightTest() {
 
-		List<Flight> existings = flightRepository.findAll();
-		Flight underTest = existings.get(0);
-		String number = underTest.getNumber();
-		flightRepository.delete(underTest);
-
-		underTest = flightRepository.findByNumber(number);
-		assertNull(underTest);
+		Flight found = flightRepository.findByNumber(number);
+		
+		assertNotNull(found);
+		
+		flightRepository.delete(found);
+		
+		assertNull(flightRepository.findByNumber(number));
+		
 	}
 
 }

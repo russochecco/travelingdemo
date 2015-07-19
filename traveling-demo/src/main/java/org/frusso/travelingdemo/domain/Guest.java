@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,7 +24,8 @@ public class Guest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="guest_id")
 	private Long id;
 
 	@Column(nullable = false, name = "title")
@@ -40,17 +41,27 @@ public class Guest implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dateBirth;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "passport_id")
+	@OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
 	private Passport passport;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "credit_card_id")
+	@OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
 	private CreditCard creditCard;
-	
-	@ManyToMany
-	@JoinTable(name = "guest_baggage", joinColumns = @JoinColumn(name = "guest_id"), inverseJoinColumns = @JoinColumn(name = "baggage_id"))
-	private List<Baggage> baggages;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "guest")
+	private List<GuestBaggage> guestBaggages;
+
+	@OneToMany(mappedBy = "guest")
+	private List<Booking> bookings;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getTitle() {
 		return title;
@@ -92,14 +103,6 @@ public class Guest implements Serializable {
 		this.passport = passport;
 	}
 
-	public List<Baggage> getBaggages() {
-		return baggages;
-	}
-
-	public void setBaggages(List<Baggage> baggages) {
-		this.baggages = baggages;
-	}
-	
 	public CreditCard getCreditCard() {
 		return creditCard;
 	}
@@ -108,8 +111,20 @@ public class Guest implements Serializable {
 		this.creditCard = creditCard;
 	}
 
-	public Long getId() {
-		return id;
+	public List<GuestBaggage> getGuestBaggages() {
+		return guestBaggages;
+	}
+
+	public void setGuestBaggages(List<GuestBaggage> guestBaggages) {
+		this.guestBaggages = guestBaggages;
+	}
+
+	public List<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = bookings;
 	}
 
 	@Override

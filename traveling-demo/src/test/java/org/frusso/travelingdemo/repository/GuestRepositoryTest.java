@@ -1,10 +1,8 @@
 package org.frusso.travelingdemo.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
-import java.util.Date;
-import java.util.List;
 
 import org.frusso.travelingdemo.TravelingDemoApplication;
 import org.frusso.travelingdemo.domain.CreditCard;
@@ -25,47 +23,52 @@ public class GuestRepositoryTest {
 	private GuestRepository guestRepository;
 
 	@Autowired
-	private PassportRepository passportRepository;
-	
-	@Autowired
 	private CreditCardRepository creditCardRepository;
+
+	@Autowired
+	private PassportRepository passportRepository;
 
 	@Test
 	public void addNewGuestTest() {
+
+		Guest guest = new Guest();
+		guest.setFirstName("Luca");
+		guest.setLastName("Bianchi");
+		guest.setDateBirth(ParseData.stringValue2Date("1973-09-22"));
+		guest.setTitle("Mr");
 
 		Passport passport = new Passport();
 		passport.setCountry("Italy");
 		passport.setDateExpire(ParseData.stringValue2Date("2018-09-30"));
 		passport.setNumber("AAPP123");
-		passport = passportRepository.saveAndFlush(passport);
-		
+		passport.setGuest(guest);
+		guest.setPassport(passport);
+
 		CreditCard creditCard = new CreditCard();
 		creditCard.setNumber("BBBBDDD12");
 		creditCard.setCreditCardType("Visa");
 		creditCard.setDateExpire(ParseData.stringValue2Date("2020-09-30"));
-		creditCardRepository.saveAndFlush(creditCard);
+		creditCard.setGuest(guest);
+		guest.setCreditCard(creditCard);
 
-		Guest newGuest = new Guest();
-		newGuest.setFirstName("Luca");
-		newGuest.setLastName("Bianchi");
-		newGuest.setDateBirth(ParseData.stringValue2Date("1973-09-22"));
-		newGuest.setPassport(passport);
-		newGuest.setCreditCard(creditCard);
-		newGuest.setTitle("Mr");
-		guestRepository.saveAndFlush(newGuest);
+		guest = guestRepository.save(guest);
 
-		assertEquals(newGuest, guestRepository.findOne(newGuest.getId()));
+		assertEquals(guest, guestRepository.findOne(guest.getId()));
+		assertNotNull(creditCardRepository.findOne(guest.getCreditCard().getId()));
+		assertNotNull(passportRepository.findOne(guest.getPassport().getId()));
+
 	}
 
 	@Test
 	public void deleteGuestTest() {
 
-		List<Guest> existings = guestRepository.findAll();
-		Guest underTest = existings.get(0);
-		String lastName = underTest.getLastName();
-		Date dateBirth = underTest.getDateBirth();
-		guestRepository.delete(underTest);
+		Guest found = guestRepository.findOne(1L);
 		
-		assertNull(guestRepository.findOne(underTest.getId()));		
+		assertNotNull(found);
+
+		guestRepository.delete(found);
+
+		assertNull(guestRepository.findOne(found.getId()));
+
 	}
 }

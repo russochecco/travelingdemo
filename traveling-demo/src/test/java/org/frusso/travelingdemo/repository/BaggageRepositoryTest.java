@@ -1,5 +1,7 @@
 package org.frusso.travelingdemo.repository;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.frusso.travelingdemo.TravelingDemoApplication;
@@ -20,14 +22,30 @@ public class BaggageRepositoryTest {
 	@Test
 	public void addNewBaggageTest() {
 		
-		Baggage newBaggage = new Baggage();
-		newBaggage.setPrice("150");
-		newBaggage.setType("New type");
-		newBaggage.setQuantity("20kg");
-		baggageRepository.save(newBaggage);
+		Baggage baggage = new Baggage();
+		baggage.setPrice("150");
+		baggage.setType("New type");
+		baggage.setQuantity("20kg");
 		
-		Baggage found = baggageRepository.findByType(newBaggage.getType());
-		assertTrue(newBaggage.getPrice().equals(found.getPrice()) && newBaggage.getQuantity().equals(found.getQuantity()));
+		baggage = baggageRepository.save(baggage);
+		
+		Baggage found = baggageRepository.findByQuantityAndType(baggage.getQuantity(), baggage.getType());
+		
+		assertTrue(baggage.getPrice().equals(found.getPrice()) && baggage.getQuantity().equals(found.getQuantity()));
+		
+	}
+	
+	@Test
+	public void deleteBaggageTest(){
+		
+		Baggage found = baggageRepository.findByQuantityAndType("20kg", "Sports Equipment");
+		
+		assertNotNull(found);
+		
+		baggageRepository.delete(found);
+		
+		assertNull(baggageRepository.findByQuantityAndType(found.getQuantity(), found.getType()));
+		
 	}
 	
 }

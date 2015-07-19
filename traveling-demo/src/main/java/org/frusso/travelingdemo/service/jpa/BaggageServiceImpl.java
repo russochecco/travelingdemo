@@ -17,12 +17,12 @@ public class BaggageServiceImpl implements BaggageService {
 	private BaggageRepository baggageRepository;
 
 	@Override
-	public Baggage findByQuantity(String quantity) {
+	public List<Baggage> findByQuantity(String quantity) {
 		return baggageRepository.findByQuantity(quantity);
 	}
 
 	@Override
-	public Baggage findByPrice(String price) {
+	public List<Baggage> findByPrice(String price) {
 		return baggageRepository.findByPrice(price);
 	}
 
@@ -37,13 +37,18 @@ public class BaggageServiceImpl implements BaggageService {
 	}
 
 	@Override
-	public Baggage findByType(String type) {
+	public List<Baggage> findByType(String type) {
 		return baggageRepository.findByType(type);
 	}
 
 	@Override
 	public List<Baggage> allBaggages() {
 		return baggageRepository.findAll();
+	}
+
+	@Override
+	public Baggage findByQuantityAndType(String quantity, String type) {
+		return baggageRepository.findByQuantityAndType(quantity, type);
 	}
 
 }

@@ -1,8 +1,8 @@
 package org.frusso.travelingdemo.repository;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.frusso.travelingdemo.TravelingDemoApplication;
 import org.frusso.travelingdemo.domain.Baggage;
@@ -12,6 +12,8 @@ import org.frusso.travelingdemo.domain.Guest;
 import org.frusso.travelingdemo.domain.GuestBaggage;
 import org.frusso.travelingdemo.domain.Passport;
 import org.frusso.travelingdemo.utils.ParseData;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TravelingDemoApplication.class)
 public class GuestBaggageRepositoryTest {
+
+	private Guest guest;
+	private Passport passport;
+	private CreditCard creditCard;
+	private Baggage baggage;
+	private Flight flight;
 
 	@Autowired
 	private GuestRepository guestRepository;
@@ -32,60 +40,77 @@ public class GuestBaggageRepositoryTest {
 	private GuestBaggageRepository guestBaggageRepository;
 
 	@Autowired
-	private PassportRepository passportRepository;
-	
-	@Autowired
 	private FlightRepository flightRepository;
-	
-	@Autowired
-	private CreditCardRepository creditCardRepository;
+
+	@Before
+	public void setUp() {
+
+		guest = new Guest();
+		guest.setFirstName("Luca");
+		guest.setLastName("Bianchi");
+		guest.setDateBirth(ParseData.stringValue2Date("1973-09-22"));
+		guest.setTitle("Mr");
+
+		passport = new Passport();
+		passport.setCountry("Italy");
+		passport.setDateExpire(ParseData.stringValue2Date("2018-09-30"));
+		passport.setNumber("AAPP123");
+		passport.setGuest(guest);
+
+		guest.setPassport(passport);
+
+		creditCard = new CreditCard();
+		creditCard.setNumber("BBBBDDD12");
+		creditCard.setCreditCardType("Visa");
+		creditCard.setDateExpire(ParseData.stringValue2Date("2020-09-30"));
+		creditCard.setGuest(guest);
+
+		guest.setCreditCard(creditCard);
+
+		guest = guestRepository.save(guest);
+
+		baggage = baggageRepository.findByQuantityAndType("20kg", "Sports Equipment");
+		flight = flightRepository.findByNumber("AA10000");
+
+	}
 
 	@Test
 	public void addNewGuestBaggageTest() {
 
-		Passport passport = new Passport();
-		passport.setCountry("Italy");
-		passport.setDateExpire(ParseData.stringValue2Date("2018-09-20"));
-		passport.setNumber("AAPP124");
-		passport = passportRepository.saveAndFlush(passport);
+		GuestBaggage guestBaggage = new GuestBaggage();
+		guestBaggage.setGuest(guest);
+		guestBaggage.setBaggage(baggage);
+		guestBaggage.setFlight(flight);
 		
-		CreditCard creditCard = new CreditCard();
-		creditCard.setNumber("BBBBDDD124");
-		creditCard.setCreditCardType("Visa");
-		creditCard.setDateExpire(ParseData.stringValue2Date("2020-09-30"));
-		creditCardRepository.saveAndFlush(creditCard);
+		guestBaggage = guestBaggageRepository.save(guestBaggage);
 
-		Guest newGuest = new Guest();
-		newGuest.setFirstName("John");
-		newGuest.setLastName("Martin");
-		newGuest.setDateBirth(ParseData.stringValue2Date("1973-09-12"));
-		newGuest.setPassport(passport);
-		newGuest.setCreditCard(creditCard);
-		newGuest.setTitle("Mr");
-		newGuest = guestRepository.saveAndFlush(newGuest);
-
-		Baggage baggage = baggageRepository.findByQuantityAndType("20kg", "Sports Equipment");
-
-		Flight flight = flightRepository.findByNumber("AA10000");
+		GuestBaggage found = guestBaggageRepository.findOne(guestBaggage.getId());
 		
-		GuestBaggage newGuestBaggage = new GuestBaggage();
-		newGuestBaggage.setBaggage(baggage);
-		newGuestBaggage.setGuest(newGuest);
-		newGuestBaggage.setFlight(flight);
-		guestBaggageRepository.saveAndFlush(newGuestBaggage);
+		assertEquals(found.getGuest(), guest);
+		assertEquals(found.getBaggage(), baggage);
+		assertEquals(found.getFlight(), flight);
 
-		GuestBaggage found = guestBaggageRepository.findByGuest(newGuest).get(0);
-		assertTrue(found.getGuest().equals(newGuest));
-		assertTrue(found.getBaggage().getId().equals(baggage.getId()));
 	}
 
 	@Test
+	@Ignore
 	public void deleteGuestBaggageTest() {
 
-		Guest guest = guestRepository.findByLastNameAndDateBirth("Rossi", ParseData.stringValue2Date("1973-11-22")).get(0);
-		List<GuestBaggage> found = guestBaggageRepository.findByGuest(guest);
+		GuestBaggage guestBaggage = new GuestBaggage();
+		guestBaggage.setGuest(guest);
+		guestBaggage.setBaggage(baggage);
+		guestBaggage.setFlight(flight);
+		
+		guestBaggage = guestBaggageRepository.save(guestBaggage);
+
+		GuestBaggage found = guestBaggageRepository.findByGuestAndFlightAndBaggage(guest, flight, baggage);
+		
+		assertNotNull(found);
+		
 		guestBaggageRepository.delete(found);
-		assertTrue(guestBaggageRepository.findByGuest(guest).size() == 0);
+		
+		assertNull(guestBaggageRepository.findOne(found.getId()));
+
 	}
 
 }

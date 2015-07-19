@@ -1,5 +1,6 @@
 package org.frusso.travelingdemo.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.frusso.travelingdemo.domain.Booking;
@@ -10,7 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
 	List<Booking> findByGuest(Guest guest);
-	
+
 	List<Booking> findByFlight(Flight flight);
+
+	Booking findByGuestAndFlightAndDateBookingAndSeat(Guest guest, Flight flight, Date dateBooking, String seat);
 
 }

@@ -1,8 +1,8 @@
 package org.frusso.travelingdemo.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,40 +13,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "booking")
-public class Booking implements Serializable {
+@Table(name = "guest_flight")
+public class GuestFlight implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "booking_id")
+	@Column(name="guest_flight_id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "guest_id")
 	private Guest guest;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "flight_id")
 	private Flight flight;
-
-	@Column(nullable = false, name = "date_booking")
-	@Temporal(TemporalType.DATE)
-	private Date dateBooking;
-
-	@Column(nullable = true, name = "amount_payment")	
-	private String amount;
-	
-	@Column(nullable = false, name = "date_payment")
-	@Temporal(TemporalType.DATE)
-	private Date datePayment;
-	
-	@Column(nullable = false, name = "seat")
-	private String seat;
 
 	public Long getId() {
 		return id;
@@ -72,46 +56,12 @@ public class Booking implements Serializable {
 		this.flight = flight;
 	}
 
-	public Date getDateBooking() {
-		return dateBooking;
-	}
-
-	public void setDateBooking(Date dateBooking) {
-		this.dateBooking = dateBooking;
-	}
-
-	public String getAmount() {
-		return amount;
-	}
-
-	public void setAmount(String amount) {
-		this.amount = amount;
-	}
-
-	public Date getDatePayment() {
-		return datePayment;
-	}
-
-	public void setDatePayment(Date datePayment) {
-		this.datePayment = datePayment;
-	}
-
-	public String getSeat() {
-		return seat;
-	}
-
-	public void setSeat(String seat) {
-		this.seat = seat;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dateBooking == null) ? 0 : dateBooking.hashCode());
 		result = prime * result + ((flight == null) ? 0 : flight.hashCode());
 		result = prime * result + ((guest == null) ? 0 : guest.hashCode());
-		result = prime * result + ((seat == null) ? 0 : seat.hashCode());
 		return result;
 	}
 
@@ -123,12 +73,7 @@ public class Booking implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Booking other = (Booking) obj;
-		if (dateBooking == null) {
-			if (other.dateBooking != null)
-				return false;
-		} else if (!dateBooking.equals(other.dateBooking))
-			return false;
+		GuestFlight other = (GuestFlight) obj;
 		if (flight == null) {
 			if (other.flight != null)
 				return false;
@@ -138,11 +83,6 @@ public class Booking implements Serializable {
 			if (other.guest != null)
 				return false;
 		} else if (!guest.equals(other.guest))
-			return false;
-		if (seat == null) {
-			if (other.seat != null)
-				return false;
-		} else if (!seat.equals(other.seat))
 			return false;
 		return true;
 	}

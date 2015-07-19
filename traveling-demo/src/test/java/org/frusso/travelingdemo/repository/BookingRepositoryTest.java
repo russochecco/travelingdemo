@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.Date;
+
 import org.frusso.travelingdemo.TravelingDemoApplication;
 import org.frusso.travelingdemo.domain.Booking;
 import org.frusso.travelingdemo.domain.Flight;
@@ -27,42 +29,70 @@ public class BookingRepositoryTest {
 	private GuestRepository guestRepository;
 
 	@Autowired
-	private PassportRepository passportRepository;
-
-	@Autowired
 	private BookingRepository bookingRepository;
 
 	@Autowired
 	private FlightRepository flightRepository;
 
+	@Autowired
+	private GuestBaggageRepository guestBaggageRepository;
+
 	@Before
 	public void setUp() throws Exception {
 
-		// find by id...
-		guest = guestRepository.findOne(1L);
-		flight = flightRepository.findOne(1L);
+		guest = guestRepository.findByLastNameAndDateBirth("Rossi", ParseData.stringValue2Date("1973-11-22")).get(0);
+		flight = flightRepository.findByNumber("AA10000");
+
 	}
 
 	@Test
 	public void addNewBooking() {
 
-		Booking underTest = new Booking();
-		underTest.setGuest(guest);
-		underTest.setFlight(flight);
-		underTest.setDateBooking(ParseData.stringValue2Date("2015-08-26"));
-		underTest.setSeat("A2");
-		underTest = bookingRepository.save(underTest);
+		Booking booking = new Booking();
+		booking.setGuest(guest);
+		booking.setFlight(flight);
+		booking.setDateBooking(ParseData.stringValue2Date("2015-08-26"));
+		booking.setSeat("A3");
+		
+		booking = bookingRepository.save(booking);
+		
+		assertEquals(booking, bookingRepository.findOne(booking.getId()));
 
-		Booking found = bookingRepository.findOne(underTest.getId());
-		assertEquals(underTest, found);
+	}
+
+	@Test
+	public void makeBookingPaymentTest() {
+
+		Booking booking = bookingRepository.findByGuestAndFlightAndDateBookingAndSeat(guest, flight, ParseData.stringValue2Date("2015-08-01"), "A1");
+		booking.setAmount("600.0");
+		booking.setDatePayment(ParseData.stringValue2Date("2015-07-18"));
+		
+		booking = bookingRepository.save(booking);
+		
+		Booking found = bookingRepository.findOne(booking.getId());
+		
+		assertEquals(booking.getDatePayment(), found.getDatePayment());
+		assertEquals(booking.getAmount(), found.getAmount());
+
+		// double amount = Double.parseDouble(found.getFlight().getPrice());
+		// final String flightNumber = found.getFlight().getNumber();
+		// amount += guestBaggageRepository.findByGuest(guest).stream()
+		// .filter(b -> b.getFlight().getNumber().equals(flightNumber))
+		// .mapToDouble(b -> Double.parseDouble(b.getBaggage().getPrice()))
+		// .sum();
+
 	}
 
 	@Test
 	public void deleteBookingTest() {
 
-		Booking found = bookingRepository.findOne(2L);
+		Booking found = bookingRepository.findByGuestAndFlightAndDateBookingAndSeat(guest, flight, ParseData.stringValue2Date("2015-08-01"), "A1");
+		
 		assertNotNull(found);
+		
 		bookingRepository.delete(found);
+		
 		assertNull(bookingRepository.findOne(found.getId()));
+
 	}
 }

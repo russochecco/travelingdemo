@@ -2,12 +2,14 @@ package org.frusso.travelingdemo.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,7 +20,8 @@ public class Flight implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="flight_id")
 	private Long id;
 
 	@Column(nullable = false, unique = true, name = "number")
@@ -46,13 +49,20 @@ public class Flight implements Serializable {
 	@Column(nullable = false, name = "price")
 	private String price;
 
-	@Column(nullable = false, name = "type_flight")
+	@Column(nullable = false, name = "flight_type")
 	private String type;
 
+	@OneToMany(mappedBy = "flight")
+	private List<Booking> bookings;
+	
 	public Long getId() {
 		return id;
 	}
-	
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getNumber() {
 		return number;
 	}
@@ -123,6 +133,14 @@ public class Flight implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public List<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = bookings;
 	}
 
 	@Override
