@@ -128,7 +128,7 @@ public class BookingFlightRestServiceTest {
 	@Test
 	public void findGuestBookingsTest() {
 
-		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:9000/booking-flight/guest-boockings?lastName=Rossi&dateBirth=1973-11-22", String.class);
+		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:9000/booking-flight/guest-boockings?lastName=Bianchi&dateBirth=1970-05-23", String.class);
 		assertTrue(response.getStatusCode().is2xxSuccessful());
 		logger.info(response.getBody());
 

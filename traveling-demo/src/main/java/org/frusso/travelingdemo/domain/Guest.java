@@ -50,7 +50,7 @@ public class Guest implements Serializable {
     @PrimaryKeyJoinColumn
 	private CreditCard creditCard;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "guest")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "guest")
 	private List<GuestBaggage> guestBaggages;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "guest")

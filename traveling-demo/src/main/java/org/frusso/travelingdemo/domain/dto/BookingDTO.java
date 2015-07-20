@@ -7,9 +7,9 @@ import org.frusso.travelingdemo.domain.Booking;
 @XmlRootElement
 public class BookingDTO {
 
-	private String id;
-	private String guestId;
-	private String flightId;
+	private Long id;
+	private Long guestId;
+	private Long flightId;
 	private String dateBooking;
 	private String amount;
 	private String datePayment;
@@ -20,9 +20,9 @@ public class BookingDTO {
 
 	public BookingDTO(Booking booking) {
 
-		this.id = booking.getId().toString();
-		this.guestId = booking.getGuest().getId().toString();
-		this.flightId = booking.getFlight().getId().toString();
+		this.id = booking.getId();
+		this.guestId = booking.getGuest().getId();
+		this.flightId = booking.getFlight().getId();
 		this.dateBooking = booking.getDateBooking().toString();
 		this.amount = booking.getAmount();
 		this.datePayment = booking.getDatePayment().toString();
@@ -30,7 +30,7 @@ public class BookingDTO {
 
 	}
 
-	public BookingDTO(String id, String guestId, String flightId, String dateBooking, String amount, String datePayment, String seat) {
+	public BookingDTO(Long id, Long guestId, Long flightId, String dateBooking, String amount, String datePayment, String seat) {
 
 		this.id = id;
 		this.guestId = guestId;
@@ -42,27 +42,27 @@ public class BookingDTO {
 
 	}
 
-	public String getBookingId() {
+	public Long getBookingId() {
 		return id;
 	}
 
-	public void setBookingId(String id) {
+	public void setBookingId(Long id) {
 		this.id = id;
 	}
 
-	public String getGuestId() {
+	public Long getGuestId() {
 		return guestId;
 	}
 
-	public void setGuestId(String guestId) {
+	public void setGuestId(Long guestId) {
 		this.guestId = guestId;
 	}
 
-	public String getFlightId() {
+	public Long getFlightId() {
 		return flightId;
 	}
 
-	public void setFlightId(String flightId) {
+	public void setFlightId(Long flightId) {
 		this.flightId = flightId;
 	}
 

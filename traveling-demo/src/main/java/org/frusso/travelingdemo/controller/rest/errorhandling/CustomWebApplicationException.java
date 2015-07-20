@@ -8,7 +8,9 @@ public class CustomWebApplicationException extends WebApplicationException {
 	private static final long serialVersionUID = 1L;
 
 	public CustomWebApplicationException(String message) {
+		
         super(Response.status(Response.Status.BAD_REQUEST)
             .entity(message).type(MediaType.TEXT_PLAIN).build());
-    }
+    
+	}
 }

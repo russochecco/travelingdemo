@@ -10,7 +10,6 @@ import org.frusso.travelingdemo.TravelingDemoApplication;
 import org.frusso.travelingdemo.domain.Booking;
 import org.frusso.travelingdemo.domain.Flight;
 import org.frusso.travelingdemo.domain.Guest;
-import org.frusso.travelingdemo.utils.ParseData;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +45,7 @@ public class BookingRepositoryTest {
 	}
 
 	@Test
-	public void addNewBooking() {
+	public void addNewBookingTest() {
 
 		Booking booking = new Booking();
 		booking.setGuest(guest);
@@ -63,7 +62,7 @@ public class BookingRepositoryTest {
 	@Test
 	public void makeBookingPaymentTest() {
 
-		Booking booking = bookingRepository.findByGuestAndFlightAndDateBookingAndSeat(guest, flight, ParseData.stringValue2Date("2015-08-01"), "A1");
+		Booking booking = bookingRepository.findByGuestAndFlightAndDateBookingAndSeat(guest, flight, LocalDate.parse("2015-08-01"), "A1");
 		booking.setAmount("600.0");
 		booking.setDatePayment(LocalDate.parse("2015-07-18"));
 		
@@ -79,7 +78,7 @@ public class BookingRepositoryTest {
 	@Test
 	public void deleteBookingTest() {
 
-		Booking found = bookingRepository.findByGuestAndFlightAndDateBookingAndSeat(guest, flight, ParseData.stringValue2Date("2015-08-01"), "A1");
+		Booking found = bookingRepository.findByGuestAndFlightAndDateBookingAndSeat(guest, flight, LocalDate.parse("2015-08-01"), "A1");
 		
 		assertNotNull(found);
 		
