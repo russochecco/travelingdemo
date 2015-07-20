@@ -39,7 +39,7 @@ public class Guest implements Serializable {
 	private String lastName;
 
 	@Column(nullable = false, name = "date_birth")
-//	@Convert(converter = LocalDateConverter.class)
+	@Convert(converter = LocalDateConverter.class)
 	private LocalDate dateBirth;
 
 	@OneToOne(cascade = CascadeType.ALL)

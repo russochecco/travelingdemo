@@ -6,19 +6,22 @@ import org.frusso.travelingdemo.domain.Baggage;
 
 @XmlRootElement
 public class BaggageDTO {
-	
+
 	private String quantity;
 	private String type;
 	private String price;
-	
+
+	public BaggageDTO() {
+	}
+
 	public BaggageDTO(Baggage baggage) {
-		
+
 		this.quantity = baggage.getQuantity();
 		this.type = baggage.getType();
 		this.price = baggage.getType();
-		
+
 	}
-	
+
 	public BaggageDTO(String quantity, String type, String price) {
 		this.quantity = quantity;
 		this.type = type;
@@ -47,6 +50,11 @@ public class BaggageDTO {
 
 	public void setPrice(String price) {
 		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		return "BaggageDTO [quantity=" + quantity + ", type=" + type + ", price=" + price + "]";
 	}
 	
 }

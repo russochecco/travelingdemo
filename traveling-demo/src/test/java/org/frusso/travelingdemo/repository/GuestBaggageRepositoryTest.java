@@ -13,7 +13,6 @@ import org.frusso.travelingdemo.domain.Flight;
 import org.frusso.travelingdemo.domain.Guest;
 import org.frusso.travelingdemo.domain.GuestBaggage;
 import org.frusso.travelingdemo.domain.Passport;
-import org.frusso.travelingdemo.utils.ParseData;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

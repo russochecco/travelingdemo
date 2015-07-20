@@ -12,6 +12,8 @@ public class SeatDTO {
 	@XmlTransient
 	private Integer id;
 	
+	public SeatDTO(){}
+	
 	public SeatDTO(Integer id, String seat, String status) {
 		
 		this.id = id;
@@ -49,6 +51,11 @@ public class SeatDTO {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "SeatDTO [seat=" + seat + ", status=" + status + ", id=" + id + "]";
 	}
 	
 }

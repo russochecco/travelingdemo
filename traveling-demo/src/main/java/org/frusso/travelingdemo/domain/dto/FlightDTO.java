@@ -17,6 +17,9 @@ public class FlightDTO {
 	private String price;
 	private String type;
 
+	public FlightDTO() {
+	}
+
 	public FlightDTO(Flight flight) {
 
 		this.number = flight.getNumber();
@@ -115,6 +118,12 @@ public class FlightDTO {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "FlightDTO [number=" + number + ", departure=" + departure + ", destination=" + destination + ", date=" + date + ", timeDeparture=" + timeDeparture + ", timeArrival=" + timeArrival
+				+ ", status=" + status + ", price=" + price + ", type=" + type + "]";
 	}
 
 }

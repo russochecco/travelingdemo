@@ -1,10 +1,10 @@
 package org.frusso.travelingdemo.controller.rest;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,11 +15,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.frusso.travelingdemo.controller.rest.errorhandling.CustomWebApplicationException;
+import org.frusso.travelingdemo.domain.CreditCard;
 import org.frusso.travelingdemo.domain.Flight;
 import org.frusso.travelingdemo.domain.Guest;
+import org.frusso.travelingdemo.domain.Passport;
 import org.frusso.travelingdemo.domain.dto.BaggageDTO;
 import org.frusso.travelingdemo.domain.dto.BookingDTO;
 import org.frusso.travelingdemo.domain.dto.FlightDTO;
+import org.frusso.travelingdemo.domain.dto.GuestDTO;
 import org.frusso.travelingdemo.domain.dto.SeatDTO;
 import org.frusso.travelingdemo.service.BaggageService;
 import org.frusso.travelingdemo.service.BookingService;
@@ -27,8 +30,6 @@ import org.frusso.travelingdemo.service.FlightService;
 import org.frusso.travelingdemo.service.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 @Path("/booking-flight")
@@ -74,18 +75,26 @@ public class BookingFlightService {
 
 	@POST
 	@Path("/flight-add")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addFlight(@FormParam("flight") String flight) throws CustomWebApplicationException {
+	public Response addFlight(FlightDTO flight) throws CustomWebApplicationException {
 
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			Flight newFlight = mapper.readValue(flight, Flight.class);
+			Flight newFlight = new Flight();
+			newFlight.setNumber(flight.getNumber());
+			newFlight.setPrice(flight.getPrice());
+			newFlight.setStatus(flight.getStatus());
+			newFlight.setDate(LocalDate.parse(flight.getDate()));
+			newFlight.setDeparture(flight.getDeparture());
+			newFlight.setDestination(flight.getDestination());
+			newFlight.setTimeDeparture(LocalTime.parse(flight.getTimeDeparture()));
+			newFlight.setTimeArrival(LocalTime.parse(flight.getTimeArrival()));
+			newFlight.setType(flight.getType());
 			flightService.save(newFlight);
 		} catch (Exception e) {
 			throw new CustomWebApplicationException(e.getMessage());
 		}
 
-		return Response.status(Status.OK).build();
+		return Response.status(Status.OK).entity(flight).build();
+		
 	}
 
 	@GET
@@ -171,7 +180,7 @@ public class BookingFlightService {
 	@GET
 	@Path("/guest-boockings")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<BookingDTO> findGuestBookings(@QueryParam("last-name") String lastName, @QueryParam("date-birth") String dateBirth) throws CustomWebApplicationException {
+	public List<BookingDTO> findGuestBookings(@QueryParam("lastName") String lastName, @QueryParam("dateBirth") String dateBirth) throws CustomWebApplicationException {
 		
 		try {
 			return bookingService.findByGuest(lastName, dateBirth).stream().map(b-> new BookingDTO(b)).collect(Collectors.toList());
@@ -183,21 +192,40 @@ public class BookingFlightService {
 	
 	@POST
 	@Path("/guest-add")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addGuest(@QueryParam("guest") String guest, @QueryParam("passport") String passport, @QueryParam("credit-card") String creditCard) throws CustomWebApplicationException {
+	public Response addGuest(GuestDTO guest) throws CustomWebApplicationException {
 
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			Guest newGuest = mapper.readValue(guest, Guest.class);
+			Guest newGuest = new Guest();
+			newGuest.setLastName(guest.getLastName());
+			newGuest.setFirstName(guest.getFirstName());
+			newGuest.setTitle(guest.getTitle());
+			newGuest.setDateBirth(LocalDate.parse(guest.getDateBirth()));
 			
+			Passport newPassport = new Passport();
+			newPassport.setDateExpire(LocalDate.parse(guest.getPassport().getDateExpire()));
+			newPassport.setNumber(guest.getPassport().getNumber());
+			newPassport.setCountry(guest.getPassport().getCountry());
+			newPassport.setGuest(newGuest);
+			newGuest.setPassport(newPassport);
+
+			CreditCard newCreditCard = new CreditCard();
+			newCreditCard.setNumber(guest.getCreditCard().getNumber());
+			newCreditCard.setCreditCardType(guest.getCreditCard().getCreditCardType());
+			newCreditCard.setDateExpire(LocalDate.parse(guest.getCreditCard().getDateExpire()));
+			newCreditCard.setNumber(guest.getCreditCard().getNumber());
+			newCreditCard.setGuest(newGuest);
+			newGuest.setCreditCard(newCreditCard);
+
+			newGuest = guestService.save(newGuest);
 			
-			
-//			guestService.save(newGuest);
+			guest.setId(newGuest.getId());
+			guest.getCreditCard().setId(newCreditCard.getId());
+			guest.getPassport().setId(newGuest.getPassport().getId());
 		} catch (Exception e) {
 			throw new CustomWebApplicationException(e.getMessage());
 		}
-
-		return Response.status(Status.OK).build();
+		
+		return Response.status(Status.OK).entity(guest).build();
 		
 	}
 	

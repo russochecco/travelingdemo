@@ -6,45 +6,48 @@ import org.frusso.travelingdemo.domain.Booking;
 
 @XmlRootElement
 public class BookingDTO {
-	
-	private String bookingId;
+
+	private String id;
 	private String guestId;
 	private String flightId;
 	private String dateBooking;
 	private String amount;
-	private String datePayment;	
+	private String datePayment;
 	private String seat;
-	
+
+	public BookingDTO() {
+	}
+
 	public BookingDTO(Booking booking) {
-		
-		this.bookingId = booking.getId().toString();
+
+		this.id = booking.getId().toString();
 		this.guestId = booking.getGuest().getId().toString();
 		this.flightId = booking.getFlight().getId().toString();
 		this.dateBooking = booking.getDateBooking().toString();
 		this.amount = booking.getAmount();
 		this.datePayment = booking.getDatePayment().toString();
 		this.seat = booking.getSeat();
-		
+
 	}
-	
-	public BookingDTO(String bookingId, String guestId, String flightId, String dateBooking, String amount, String datePayment, String seat) {
-		
-		this.bookingId = bookingId;
+
+	public BookingDTO(String id, String guestId, String flightId, String dateBooking, String amount, String datePayment, String seat) {
+
+		this.id = id;
 		this.guestId = guestId;
 		this.flightId = flightId;
 		this.dateBooking = dateBooking;
 		this.amount = amount;
 		this.datePayment = datePayment;
 		this.seat = seat;
-		
+
 	}
 
 	public String getBookingId() {
-		return bookingId;
+		return id;
 	}
 
-	public void setBookingId(String bookingId) {
-		this.bookingId = bookingId;
+	public void setBookingId(String id) {
+		this.id = id;
 	}
 
 	public String getGuestId() {
@@ -94,5 +97,11 @@ public class BookingDTO {
 	public void setSeat(String seat) {
 		this.seat = seat;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "BookingDTO [id=" + id + ", guestId=" + guestId + ", flightId=" + flightId + ", dateBooking=" + dateBooking + ", amount=" + amount + ", datePayment=" + datePayment
+				+ ", seat=" + seat + "]";
+	}
+
 }
